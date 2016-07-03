@@ -1,0 +1,4 @@
+floppya: 1_44="floppy.bin", status=inserted
+boot:floppy
+magic_break: enabled=1
+
