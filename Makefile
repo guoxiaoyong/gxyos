@@ -3,9 +3,10 @@ asmsrc   :=  $(wildcard *.asm)
 src      :=  $(wildcard *.c)
 hdr      :=  $(wildcard *.h)
 php      :=  $(wildcard *.php)
+py      :=  $(wildcard *.py)
 txt      :=  bochsrc.txt font.txt
 lds      :=  link.ld
-useful   :=  $(asmsrc) $(src) $(hdr) $(txt) $(lds) $(php) Makefile copyfile.tcl klib
+useful   :=  $(asmsrc) $(src) $(hdr) $(txt) $(lds) $(php) $(py) Makefile copyfile.tcl klib
 rmfiles  :=  $(filter-out $(useful), $(wildcard *))
 bin      :=  $(asmsrc:.asm=.bin)
 CFLAGS := -m32 -O2
@@ -31,11 +32,7 @@ font.c: font.bin
 	xxd -i $< | sed 's/font_bin/hankaku/g' > font.c
 
 font.bin: font.txt
-	php makefont.php $< $@
-
-
-%.bin: %.txt
-	php makefont.php $^ $@
+	python makefont.py $< $@
 
 asmhead.bin: asmhead.asm entry.info
 	nasm -f bin `cat entry.info` -o $@ $<
